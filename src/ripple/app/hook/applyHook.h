@@ -208,6 +208,12 @@ namespace hook_api
 
     DECLARE_HOOK_FUNCTION(int64_t,  meta_slot,          uint32_t slot_no );
 
+
+    DECLARE_HOOK_FUNCTION(int64_t,	zk_verify,
+                          uint32_t pubvals_ptr, uint32_t pubvals_len,
+                          uint32_t proof_ptr, uint32_t proof_len,
+                          uint32_t vk_ptr, uint32_t vk_len)
+
 /*
     DECLARE_HOOK_FUNCTION(int64_t,  str_find,           uint32_t hread_ptr, uint32_t hread_len,
                                                         uint32_t nread_ptr, uint32_t nread_len,

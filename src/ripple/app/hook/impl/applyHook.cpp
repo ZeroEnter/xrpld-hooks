@@ -18,7 +18,13 @@
 #include <ripple/protocol/tokens.h>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
+#include <libsnark/common/default_types/r1cs_gg_ppzksnark_pp.hpp>
+#include <libsnark/gadgetlib1/gadgets/basic_gadgets.hpp>
+#include <libsnark/zk_proof_systems/ppzksnark/r1cs_gg_ppzksnark/r1cs_gg_ppzksnark.hpp>
+
 using namespace ripple;
+using namespace libsnark;
+using namespace libff;
 
 namespace hook
 {
@@ -5216,8 +5222,57 @@ DEFINE_HOOK_FUNCTION(
     return slot_into;
 }
 
+
+
+DEFINE_HOOK_FUNCTION(
+    int64_t,
+    zk_verify,
+    uint32_t pubvals_ptr, uint32_t pubvals_len,
+    uint32_t proof_ptr, uint32_t proof_len,
+    uint32_t vk_ptr, uint32_t vk_len)
+{
+    HOOK_SETUP();
+
+    // Initialize the curve parameters
+    // TODO: initialize once
+    default_r1cs_gg_ppzksnark_pp::init_public_params();
+
+    // Create protoboard
+
+    const uint8_t* pubvals_data = reinterpret_cast<const uint8_t*>(memory + pubvals_ptr);
+    const uint8_t* proof_data = reinterpret_cast<const uint8_t*>(memory + proof_ptr);
+    const uint8_t* vk_data = reinterpret_cast<const uint8_t*>(memory + vk_ptr);
+
+
+//    // Deserialize proof and public values from data
+//    libsnark::r1cs_gg_ppzksnark_proof<libsnark::default_r1cs_gg_ppzksnark_pp> proof;
+//    std::vector<uint8_t> proof_vec(proof_data, proof_data + proof_len);
+//    std::string proof_str(proof_vec.begin(), proof_vec.end());
+//    std::istringstream proof_stream(proof_str);
+//    proof_stream >> proof;
+//
+//    // Deserialize public values
+//    libsnark::r1cs_primary_input<libff::Fr<libsnark::default_r1cs_gg_ppzksnark_pp>> pub_values;
+//    std::vector<uint8_t> pubvals_vec(pubvals_data, pubvals_data + pubvals_len);
+//    std::string pubvals_str(pubvals_vec.begin(), pubvals_vec.end());
+//    std::istringstream pubvals_stream(pubvals_str);
+//    pubvals_stream >> pub_values;
+//
+//    // Deserialize verification key
+//    libsnark::r1cs_gg_ppzksnark_verification_key<libsnark::default_r1cs_gg_ppzksnark_pp> vk;
+//    std::vector<uint8_t> vk_vec(vk_data, vk_data + vk_len);
+//    std::string vk_str(vk_vec.begin(), vk_vec.end());
+//    std::istringstream vk_stream(vk_str);
+//    vk_stream >> vk;
+//
+//    bool is_verified = libsnark::r1cs_gg_ppzksnark_verifier_strong_IC<libsnark::default_r1cs_gg_ppzksnark_pp>(vk, pub_values, proof);
+//
+//    return is_verified ? 1 : 0;
+
+    return 1;
+}
+
 /*
-    
 DEFINE_HOOK_FUNCTION(
     int64_t,
     str_find,

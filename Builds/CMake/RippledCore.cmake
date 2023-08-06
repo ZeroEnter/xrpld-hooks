@@ -13,6 +13,19 @@ if (unity)
   set_target_properties(xrpl_core PROPERTIES UNITY_BUILD ON)
 endif ()
 
+set(
+    CURVE
+    "ALT_BN128"
+    CACHE
+    STRING
+    "Default curve: one of ALT_BN128, BN128, EDWARDS, MNT4, MNT6"
+)
+add_definitions(-DCURVE_${CURVE})
+
+if(${CURVE} STREQUAL "ALT_BN128")
+    add_definitions(-DBN_SUPPORT_SNARK=1)
+endif()
+
 
 #[===============================[
     beast/legacy FILES:
@@ -138,6 +151,7 @@ target_link_libraries (xrpl_core
     NIH::secp256k1
     NIH::ed25519-donna
     NIH::WasmEdge
+#    NIH::libsnark
     date::date
     Ripple::opts)
 #[=================================[
@@ -1032,3 +1046,4 @@ if (tests)
     src/test/rpc/ShardArchiveHandler_test.cpp
     PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 endif () #tests
+
