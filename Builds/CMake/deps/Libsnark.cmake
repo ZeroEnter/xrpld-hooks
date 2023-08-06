@@ -27,33 +27,6 @@ set(
 #        set(OPT_FLAGS "-ggdb3 -O2 -march=native -mtune=native")
 #    endif()
 #endif()
-set(
-    CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wfatal-errors"
-)
-if("${MULTICORE}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
-endif()
-
-# Default optimizations flags (to override, use -DOPT_FLAGS=...)
-if("${OPT_FLAGS}" STREQUAL "")
-    set(OPT_FLAGS "-ggdb3 -O2 -march=native -mtune=native")
-endif()
-add_definitions(-DCURVE_${CURVE})
-
-if(${CURVE} STREQUAL "BN128")
-    add_definitions(-DBN_SUPPORT_SNARK=1)
-endif()
-
-if("${VERBOSE}")
-    add_definitions(-DVERBOSE=1)
-endif()
-
-if("${MULTICORE}")
-    add_definitions(-DMULTICORE=1)
-endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT_FLAGS}")
 
 include(FindPkgConfig)
 if("${WITH_PROCPS}")
@@ -62,15 +35,15 @@ else()
     add_definitions(-DNO_PROCPS)
 endif()
 
-set(CMAKE_CXX_STANDARD 11)
-
 message(STATUS "start building libsnark")
 #message(STATUS "libsnark CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 ExternalProject_Add( libsnark_src
     PREFIX ${nih_cache_path}
     GIT_REPOSITORY https://github.com/pantyukhov/libsnark.git
     GIT_TAG        master
-#    UPDATE_COMMAND git submodule init && git submodule update
+    UPDATE_COMMAND git submodule init && git submodule update
+    CMAKE_ARGS
+        -DCURVE=BN128
     LOG_CONFIGURE ON
     LOG_BUILD ON
     LOG_CONFIGURE ON

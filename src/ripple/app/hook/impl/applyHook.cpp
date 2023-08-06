@@ -18,7 +18,8 @@
 #include <ripple/protocol/tokens.h>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
-#include <libsnark/common/default_types/r1cs_gg_ppzksnark_pp.hpp>
+//#include <libsnark/common/default_types/r1cs_gg_ppzksnark_pp.hpp>
+#include <libff/common/default_types/ec_pp.hpp>
 #include <libsnark/gadgetlib1/gadgets/basic_gadgets.hpp>
 #include <libsnark/zk_proof_systems/ppzksnark/r1cs_gg_ppzksnark/r1cs_gg_ppzksnark.hpp>
 
@@ -5233,16 +5234,30 @@ DEFINE_HOOK_FUNCTION(
 {
     HOOK_SETUP();
 
-    // Initialize the curve parameters
-    // TODO: initialize once
-    default_r1cs_gg_ppzksnark_pp::init_public_params();
-
-    // Create protoboard
 
     const uint8_t* pubvals_data = reinterpret_cast<const uint8_t*>(memory + pubvals_ptr);
     const uint8_t* proof_data = reinterpret_cast<const uint8_t*>(memory + proof_ptr);
     const uint8_t* vk_data = reinterpret_cast<const uint8_t*>(memory + vk_ptr);
 
+
+    r1cs_gg_ppzksnark_verification_key<libff::default_ec_pp> loaded_vk;
+//    std::ifstream vk_file("verification_key_data");
+//    vk_file >> loaded_vk;
+//    vk_file.close();
+//
+//    r1cs_gg_ppzksnark_proof<libff::default_ec_pp> loaded_proof;
+//    std::ifstream proof_file("proof_data");
+//    proof_file >> loaded_proof;
+//    proof_file.close();
+
+//    r1cs_primary_input<FieldT> loaded_input;
+//    std::ifstream input_file("input_data");
+//    input_file >> loaded_input;
+//    input_file.close();
+//
+//    bool is_verified = r1cs_gg_ppzksnark_verifier_strong_IC<libff::default_ec_pp>(loaded_vk, loaded_pk, loaded_proof);
+//    return is_verified ? 1 : 0;
+    return 0;
 
 //    // Deserialize proof and public values from data
 //    libsnark::r1cs_gg_ppzksnark_proof<libsnark::default_r1cs_gg_ppzksnark_pp> proof;
