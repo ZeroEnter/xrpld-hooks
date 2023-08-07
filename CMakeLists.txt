@@ -78,7 +78,7 @@ include(deps/cassandra)
 include(deps/Postgres)
 include(deps/WasmEdge)
 #include(deps/Libdiff)
-#include(deps/Libsnark)
+include(deps/Libsnark)
 #include(deps/Libfqfft)
 
 ###
