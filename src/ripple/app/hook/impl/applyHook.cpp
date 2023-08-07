@@ -5239,51 +5239,30 @@ DEFINE_HOOK_FUNCTION(
     const uint8_t* vk_data = reinterpret_cast<const uint8_t*>(memory + vk_ptr);
 
 
-    r1cs_gg_ppzksnark_verification_key<libff::default_ec_pp> loaded_vk;
-//    std::ifstream vk_file("verification_key_data");
-//    vk_file >> loaded_vk;
-//    vk_file.close();
-//
-//    r1cs_gg_ppzksnark_proof<libff::default_ec_pp> loaded_proof;
-//    std::ifstream proof_file("proof_data");
-//    proof_file >> loaded_proof;
-//    proof_file.close();
+    // Deserialize proof and public values from data
+    libsnark::r1cs_gg_ppzksnark_proof<libsnark::default_r1cs_gg_ppzksnark_pp> proof;
+    std::vector<uint8_t> proof_vec(proof_data, proof_data + proof_len);
+    std::string proof_str(proof_vec.begin(), proof_vec.end());
+    std::istringstream proof_stream(proof_str);
+    proof_stream >> proof;
 
-//    r1cs_primary_input<FieldT> loaded_input;
-//    std::ifstream input_file("input_data");
-//    input_file >> loaded_input;
-//    input_file.close();
-//
-//    bool is_verified = r1cs_gg_ppzksnark_verifier_strong_IC<libff::default_ec_pp>(loaded_vk, loaded_pk, loaded_proof);
-//    return is_verified ? 1 : 0;
-    return 0;
+    // Deserialize public values
+    libsnark::r1cs_primary_input<libff::Fr<libsnark::default_r1cs_gg_ppzksnark_pp>> pub_values;
+    std::vector<uint8_t> pubvals_vec(pubvals_data, pubvals_data + pubvals_len);
+    std::string pubvals_str(pubvals_vec.begin(), pubvals_vec.end());
+    std::istringstream pubvals_stream(pubvals_str);
+    pubvals_stream >> pub_values;
 
-//    // Deserialize proof and public values from data
-//    libsnark::r1cs_gg_ppzksnark_proof<libsnark::default_r1cs_gg_ppzksnark_pp> proof;
-//    std::vector<uint8_t> proof_vec(proof_data, proof_data + proof_len);
-//    std::string proof_str(proof_vec.begin(), proof_vec.end());
-//    std::istringstream proof_stream(proof_str);
-//    proof_stream >> proof;
-//
-//    // Deserialize public values
-//    libsnark::r1cs_primary_input<libff::Fr<libsnark::default_r1cs_gg_ppzksnark_pp>> pub_values;
-//    std::vector<uint8_t> pubvals_vec(pubvals_data, pubvals_data + pubvals_len);
-//    std::string pubvals_str(pubvals_vec.begin(), pubvals_vec.end());
-//    std::istringstream pubvals_stream(pubvals_str);
-//    pubvals_stream >> pub_values;
-//
-//    // Deserialize verification key
-//    libsnark::r1cs_gg_ppzksnark_verification_key<libsnark::default_r1cs_gg_ppzksnark_pp> vk;
-//    std::vector<uint8_t> vk_vec(vk_data, vk_data + vk_len);
-//    std::string vk_str(vk_vec.begin(), vk_vec.end());
-//    std::istringstream vk_stream(vk_str);
-//    vk_stream >> vk;
-//
-//    bool is_verified = libsnark::r1cs_gg_ppzksnark_verifier_strong_IC<libsnark::default_r1cs_gg_ppzksnark_pp>(vk, pub_values, proof);
-//
-//    return is_verified ? 1 : 0;
+    // Deserialize verification key
+    libsnark::r1cs_gg_ppzksnark_verification_key<libsnark::default_r1cs_gg_ppzksnark_pp> vk;
+    std::vector<uint8_t> vk_vec(vk_data, vk_data + vk_len);
+    std::string vk_str(vk_vec.begin(), vk_vec.end());
+    std::istringstream vk_stream(vk_str);
+    vk_stream >> vk;
 
-    return 1;
+    bool is_verified = libsnark::r1cs_gg_ppzksnark_verifier_strong_IC<libsnark::default_r1cs_gg_ppzksnark_pp>(vk, pub_values, proof);
+
+    return is_verified ? 1 : 0;
 }
 
 /*
