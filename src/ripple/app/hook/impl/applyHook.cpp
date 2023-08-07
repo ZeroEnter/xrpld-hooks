@@ -18,8 +18,7 @@
 #include <ripple/protocol/tokens.h>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
-//#include <libsnark/common/default_types/r1cs_gg_ppzksnark_pp.hpp>
-#include <libff/common/default_types/ec_pp.hpp>
+#include <libsnark/common/default_types/r1cs_gg_ppzksnark_pp.hpp>
 #include <libsnark/gadgetlib1/gadgets/basic_gadgets.hpp>
 #include <libsnark/zk_proof_systems/ppzksnark/r1cs_gg_ppzksnark/r1cs_gg_ppzksnark.hpp>
 

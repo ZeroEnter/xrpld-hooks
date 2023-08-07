@@ -1,12 +1,5 @@
 cmake_minimum_required (VERSION 3.16)
 
-set(
-    CURVE
-    "ALT_BN128"
-    CACHE
-    STRING
-    "Default curve: one of ALT_BN128, BN128, EDWARDS, MNT4, MNT6"
-)
 
 if (POLICY CMP0074)
   cmake_policy(SET CMP0074 NEW)
@@ -84,6 +77,7 @@ include(deps/gRPC)
 include(deps/cassandra)
 include(deps/Postgres)
 include(deps/WasmEdge)
+#include(deps/Libdiff)
 include(deps/Libsnark)
 #include(deps/Libfqfft)
 
