@@ -14,6 +14,9 @@ set(Boost_NO_BOOST_CMAKE ON)
 
 # make GIT_COMMIT_HASH define available to all sources
 find_package(Git)
+
+
+
 if(Git_FOUND)
     execute_process(COMMAND ${GIT_EXECUTABLE} describe --always --abbrev=40
         OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE gch)
